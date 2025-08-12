@@ -1,46 +1,186 @@
 
+/* Estilos base mejorados */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f8;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   margin: 0;
-  padding: 0;
+  padding: 20px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
 }
+
+/* Contenedor del formulario - Versión premium */
 .form-container {
-  background-color: #fff;
-  padding: 30px;
-  margin-top: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 90%;
+  background: #fff;
+  padding: 40px;
+  margin: 40px 0;
+  border-radius: 16px;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+  max-width: 650px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Efecto de acento superior */
+.form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #4CAF50, #2E7D32);
+}
+
+/* Tipografía mejorada */
 h1 {
   text-align: center;
-  color: #333;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  position: relative;
 }
-label {
-  font-weight: bold;
+
+h1::after {
+  content: '';
   display: block;
-  margin: 15px 0 5px;
+  width: 60px;
+  height: 4px;
+  background: #4CAF50;
+  margin: 15px auto 0;
+  border-radius: 2px;
 }
+
+/* Campos de formulario - Diseño moderno */
+label {
+  font-weight: 600;
+  display: block;
+  margin: 20px 0 8px;
+  color: #34495e;
+  font-size: 0.95rem;
+}
+
 input[type="text"],
 input[type="email"],
+input[type="number"],
 textarea,
 select {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
 }
-input[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  background-color: #fff;
+}
+
+/* Radio buttons y checkboxes modernos */
+.input-group {
+  margin: 15px 0;
+}
+
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
+input[type="radio"],
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="checkbox"] {
+  border-radius: 4px;
+}
+
+input[type="radio"]:checked {
+  border-color: #4CAF50;
+  background-color: #fff;
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Botón mejorado con efectos */
+input[type="submit"] {
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 30px 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+}
