@@ -1,4 +1,3 @@
-
 {
   "name": "encuesta-app",
   "version": "1.0.0",
@@ -7,9 +6,21 @@
     "start": "node backend/server.js"
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "mongoose": "^7.6.1"
-  }
+    "express": "^4.21.2",
+    "mongoose": "^7.8.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebastian9881711/encuesta_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebastian9881711/encuesta_app/issues"
+  },
+  "homepage": "https://github.com/sebastian9881711/encuesta_app#readme",
+  "description": ""
 }
