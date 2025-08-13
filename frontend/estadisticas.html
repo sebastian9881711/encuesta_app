@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estadísticas de Encuestas</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .filtros {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 900px;
+  }
+  
+  select, button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: #4e79a7;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #3a5f8a;
+  }
+  
+  .grafico-container {
+    width: 95%;
+    height: 70vh;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  #graficoEstadisticas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+</head>
+<body>
+  <h1 style="text-align: center;">Estadísticas de Respuestas</h1>
+  
+  <div class="filtros">
+    <select id="campoFiltro">
+      <option value="metodo">Método de Pago</option>
+      <option value="dificultad">Dificultad</option>
+      <option value="factores">Factores</option>
+    </select>
+    <button onclick="cargarEstadisticas()">Filtrar</button>
+  </div>
+
+  <div class="grafico-container">
+    <canvas id="graficoEstadisticas"></canvas>
+  </div>
+
+  <script>
+    let grafico;
+
+    async function cargarEstadisticas(campo = 'metodo') {
+      const respuesta = await fetch(`/api/estadisticas/${campo}`);
+      const datos = await respuesta.json();
+      
+      const ctx = document.getElementById('graficoEstadisticas').getContext('2d');
+      
+      if (grafico) grafico.destroy();
+      
+      grafico = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: datos.map(item => item._id || 'Sin dato'),
+          datasets: [{
+            label: `Total por ${campo}`,
+            data: datos.map(item => item.total),
+            backgroundColor: 'rgba(54, 162, 235, 0.7)'
+          }]
+        },
+        options: { responsive: true }
+      });
+    }
+
+    // Cargar datos al iniciar
+    document.getElementById('campoFiltro').addEventListener('change', (e) => {
+      cargarEstadisticas(e.target.value);
+    });
+    
+    cargarEstadisticas();
+
+    // Paleta de colores profesional (puedes personalizarla)
+const paletaColores = [
+  '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', 
+  '#59a14f', '#edc948', '#b07aa1', '#ff9da7', 
+  '#9c755f', '#bab0ac'
+];
+
+function generarColores(cantidad) {
+  return Array.from({ length: cantidad }, (_, i) => 
+    paletaColores[i % paletaColores.length]
+  );
+}
+
+async function cargarEstadisticas(campo = 'metodo') {
+  const respuesta = await fetch(`/api/estadisticas/${campo}`);
+  const datos = await respuesta.json();
+  
+  const ctx = document.getElementById('graficoEstadisticas').getContext('2d');
+  const colores = generarColores(datos.length);
+  
+  if (grafico) grafico.destroy();
+  
+  grafico = new Chart(ctx, {
+    type: 'bar', // También puedes usar 'pie' o 'doughnut'
+    data: {
+      labels: datos.map(item => item._id || 'Sin dato'),
+      datasets: [{
+        label: `Total por ${campo}`,
+        data: datos.map(item => item.total),
+        backgroundColor: colores,
+        borderColor: colores.map(color => color.replace('0.7', '1')),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `${context.label}: ${context.raw} (${(
+                (context.raw * 100 / 
+                context.dataset.data.reduce((a, b) => a + b, 0))
+              ).toFixed(1)}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+  </script>
+</body>
+</html>
